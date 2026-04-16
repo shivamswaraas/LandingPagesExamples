@@ -50,7 +50,7 @@
             background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');
         }
 
-        /* === NEW LAYOUT SYSTEM (PREVENTS OVERLAP) === */
+        /* === LAYOUT SYSTEM === */
         .layout-wrapper {
             display: flex;
             flex-direction: column;
@@ -68,7 +68,7 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
-            margin-bottom: 6vh; /* Pushes the list safely down */
+            margin-bottom: 6vh; 
         }
 
         .header-title {
@@ -94,7 +94,19 @@
             font-weight: 400;
         }
 
-        /* Typewriter Styles */
+        /* === FIXED TYPEWRITER STYLES === */
+        .typewriter-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        .typewriter-placeholder {
+            /* This is the invisible block that permanently holds the exact space */
+            visibility: hidden;
+            pointer-events: none;
+            font-weight: 600;
+        }
+
         #typewriter-stimulant {
             color: var(--text-bright);
             font-weight: 600;
@@ -102,6 +114,10 @@
             padding-right: 4px;
             animation: cursor-blink 0.8s infinite;
             white-space: nowrap;
+            /* Absolutely positioned over the invisible placeholder */
+            position: absolute;
+            left: 0;
+            top: 0;
         }
 
         @keyframes cursor-blink {
@@ -109,7 +125,7 @@
             50% { border-color: var(--text-bright); }
         }
 
-        /* The Typographic Canvas */
+        /* === THE TYPOGRAPHIC CANVAS === */
         .portfolio-list {
             width: 100%;
             display: flex;
@@ -131,7 +147,6 @@
         /* The Massive Titles */
         .project-title {
             font-family: var(--font-head);
-            /* Scaled down slightly to guarantee it fits on 100% zoom screens */
             font-size: clamp(2rem, 4.5vw, 5rem); 
             font-weight: 800;
             color: var(--text-dim);
@@ -155,7 +170,7 @@
         .project-clarity {
             font-size: clamp(0.9rem, 1.2vw, 1.2rem);
             color: rgba(255,255,255,0.5);
-            margin-left: calc(clamp(1rem, 1.5vw, 1.5rem) + 2vw); /* Aligns with text */
+            margin-left: calc(clamp(1rem, 1.5vw, 1.5rem) + 2vw); 
             margin-top: 12px;
             font-weight: 500;
             transition: color 0.4s ease;
@@ -252,7 +267,7 @@
             }
 
             .project-title {
-                color: var(--text-bright); /* Titles permanently lit */
+                color: var(--text-bright);
                 font-size: 2.2rem;
             }
 
@@ -302,7 +317,12 @@
                 <span>Conversion Copywriter</span>
             </div>
             <p class="header-manifesto">
-                Most copies are sedative. <span id="typewriter-stimulant"></span> Engineering high-retention hooks and full-funnel systems that move prospects from 'Who?' to 'Where do I sign?'
+                Most copies are sedative. 
+                <span class="typewriter-wrap">
+                    <span class="typewriter-placeholder">I write the stimulant.</span>
+                    <span id="typewriter-stimulant"></span>
+                </span> 
+                Engineering high-retention hooks and full-funnel systems that move prospects from 'Who?' to 'Where do I sign?'
             </p>
         </div>
 
@@ -346,7 +366,7 @@
     </div>
 
     <script>
-        // --- 1. Typewriter Effect Logic ---
+        // --- 1. Typewriter Effect Logic (Fixed Layout) ---
         document.addEventListener("DOMContentLoaded", function() {
             const stimText = "I write the stimulant.";
             const stimEl = document.getElementById("typewriter-stimulant");
@@ -383,7 +403,6 @@
         const cursor = document.getElementById('cursor-dot');
         const links = document.querySelectorAll('.project-link');
         
-        // Smooth cursor tracking variables
         let mouseX = window.innerWidth / 2;
         let mouseY = window.innerHeight / 2;
         let cursorX = mouseX;
@@ -398,7 +417,6 @@
             requestAnimationFrame(animateCursor);
         }
         
-        // Only run custom cursor logic if device has a fine pointer (mouse)
         if (window.matchMedia("(pointer: fine)").matches) {
             animateCursor();
             
